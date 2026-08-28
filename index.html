@@ -9,19 +9,22 @@
 <body>
   <div class="container">
     <h1>Student Task Tracker</h1>
+    
     <form id="task-form">
-      <input type="text" id="title" placeholder="Task Title" required>
-      <input type="text" id="subject" placeholder="Subject" required>
-      <input type="date" id="due-date" required>
-      <select id="priority">
+      <input type="text" id="task-input" placeholder="Task Title" required>
+      <input type="text" id="subject-input" placeholder="Subject" required>
+      <input type="date" id="due-date-input" required>
+      <select id="priority-input">
         <option value="Low">Low Priority</option>
         <option value="Medium" selected>Medium Priority</option>
         <option value="High">High Priority</option>
       </select>
       <button type="submit">Add Task</button>
     </form>
+
     <ul id="task-list"></ul>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
