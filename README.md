@@ -10,7 +10,7 @@ A simple web application designed to help students track their academic assignme
 * **Delete Tasks:** Easily clean up tasks you no longer need.
 
 ## App Preview
-![Project Preview](preview.png)
+![Project Preview](preview.png) 
 
 ## How to Run
 1. Clone this repository or download the project files.
