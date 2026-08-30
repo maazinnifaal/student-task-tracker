@@ -7,33 +7,44 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
   <div class="container">
     <h1>Student Task Tracker</h1>
     
-    <form id="task-form">
-      <input type="text" id="task-input" placeholder="Task Title" required>
-      <input type="text" id="subject-input" placeholder="Subject" required>
-      <input type="date" id="due-date-input" required>
+    <!-- Input Section -->
+    <div class="form-group">
+      <input type="text" id="task-input" placeholder="Enter a new task...">
+      <input type="date" id="date-input">
       <select id="priority-input">
-        <option value="Low">Low Priority</option>
-        <option value="Medium" selected>Medium Priority</option>
-        <option value="High">High Priority</option>
-      </select>
-      <button type="submit">Add Task</button>
-    </form>
-
-    <!-- Day 3 Addition: Filter Dropdown -->
-    <div class="filter-container">
-      <label for="filter-priority">Filter by Priority: </label>
-      <select id="filter-priority">
-        <option value="All">All</option>
-        <option value="High">High</option>
-        <option value="Medium">Medium</option>
         <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
       </select>
+      <button id="add-btn">Add Task</button>
     </div>
 
+    <!-- Filter Section -->
+    <div class="filter-group">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="High">High</button>
+      <button class="filter-btn" data-filter="Medium">Medium</button>
+      <button class="filter-btn" data-filter="Low">Low</button>
+    </div>
+
+    <!-- Progress Stats Section -->
+    <div class="stats-container">
+      <div class="progress-info">
+        <span id="progress-text">0 of 0 completed</span>
+        <span id="progress-percent">0%</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+      </div>
+    </div>
+
+    <!-- Task List & Empty State -->
     <ul id="task-list"></ul>
+    <p id="empty-state" class="empty-state">No tasks available. Add one above to get started!</p>
   </div>
 
   <script src="script.js"></script>

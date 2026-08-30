@@ -1,18 +1,40 @@
-# Student Task Tracker
+# Student Task Tracker 🎓
 
-A simple web application designed to help students track their academic assignments, manage due dates, filter by priority levels, and track task completion.
+A responsive, client-side task management web application built to help students track deadlines, organize assignments by priority, and monitor overall progress in real time.
 
-## Features
-* **Add Tasks:** Set title, subject, due date, and priority level (Low, Medium, High).
-* **Filter Tasks:** Easily filter your view by priority level.
-* **Mark Completed:** Click on any task to cross it out as completed.
-* **Persistent Storage:** Saves all tasks locally using Browser `localStorage`.
-* **Delete Tasks:** Easily clean up tasks you no longer need.
+---
 
-## App Preview
-![Project Preview](preview.png) 
+## 📷 Project Evolution & Preview
 
-## How to Run
-1. Clone this repository or download the project files.
-2. Open `index.html` directly in any browser (or use VS Code's **Live Server** extension).
-3. Start tracking your assignments!
+### Initial Version (V1)
+![Initial Version](./preview.png)
+
+### Updated Version (V2 - Progress Tracker, Overdue Badges & Filters)
+![Updated Version](./preview2.png)
+
+---
+
+## ✨ Features & Updates
+
+* **Task Management:** Create, mark complete, and delete tasks dynamically.
+* **Persistent Storage:** Saves tasks in browser `localStorage` so data isn't lost on page refresh.
+* **Smart Deadline Sorting:** Automatically sorts tasks to display upcoming deadlines first.
+* **Automated Alert Badges:** Highlights tasks as **OVERDUE** or **DUE TODAY** based on target dates.
+* **Priority Filtering:** Filter tasks easily by priority levels (**High**, **Medium**, **Low**).
+* **Live Progress Bar:** Tracks completed task percentages dynamically in real-time.
+
+---
+
+## 🛠️ Tech Stack
+
+* **HTML5** - Structured semantic layout
+* **CSS3** - Responsive styling & dynamic badge alerts
+* **JavaScript (ES6+)** - DOM manipulation, state management, and `localStorage` API
+
+---
+
+## 🚀 How to Run Locally
+
+1. Clone this repository:
+   ```bash
+   git clone [https://github.com/maazinnifaal/student-task-tracker.git](https://github.com/maazinnifaal/student-task-tracker.git)
