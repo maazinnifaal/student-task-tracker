@@ -1,6 +1,6 @@
 # Student Task Tracker 🎓
 
-A responsive, client-side task management web application built to help students track deadlines, organize assignments by priority, and monitor overall progress in real time.
+A responsive, task management web application built to help students track deadlines, organize assignments by priority, and monitor overall progress in real time.
 
 ---
 
