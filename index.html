@@ -4,50 +4,40 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Task Tracker</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
   <div class="container">
     <h1>Student Task Tracker</h1>
-    
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+      <div id="progressBar" class="progress-bar" style="width: 0%;"></div>
+    </div>
+    <p id="progressText">0%</p>
+
     <!-- Input Section -->
     <div class="form-group">
-  <input type="text" id="taskInput" placeholder="Enter a new task...">
-  <input type="date" id="dateInput">
-  <select id="priorityInput">
-    <option value="Low">Low</option>
-    <option value="Medium">Medium</option>
-    <option value="High">High</option>
-  </select>
-  <button id="addBtn">Add Task</button>
-</div>
+      <input type="text" id="taskInput" placeholder="Enter a new task...">
+      <input type="date" id="dueDateInput">
+      <select id="priorityInput">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+      <button id="addBtn">Add Task</button>
+    </div>
 
-    <!-- Filter & Action Controls -->
+    <!-- Filter Buttons -->
     <div class="filter-group">
-      <div class="filters">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="High">High</button>
-        <button class="filter-btn" data-filter="Medium">Medium</button>
-        <button class="filter-btn" data-filter="Low">Low</button>
-      </div>
-      <button id="clear-all-btn" class="clear-btn">Clear All Tasks</button>
+      <button data-filter="all" class="active">All</button>
+      <button data-filter="pending">Pending</button>
+      <button data-filter="completed">Completed</button>
+      <button id="clearAllBtn">Clear All</button>
     </div>
 
-    <!-- Progress Stats Section -->
-    <div class="stats-container">
-      <div class="progress-info">
-        <span id="progress-text">0 of 0 completed</span>
-        <span id="progress-percent">0%</span>
-      </div>
-      <div class="progress-bar-bg">
-        <div id="progress-bar-fill" class="progress-bar-fill"></div>
-      </div>
-    </div>
-
-    <!-- Task List & Empty State -->
-    <ul id="task-list"></ul>
-    <p id="empty-state" class="empty-state">No tasks available. Add one above to get started!</p>
+    <!-- Task List -->
+    <ul id="taskList"></ul>
   </div>
 
   <script src="script.js"></script>
