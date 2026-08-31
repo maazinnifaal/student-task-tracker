@@ -1,173 +1,134 @@
-// Retrieve tasks from localStorage or initialize empty array
+// DOM Elements
+const taskInput = document.getElementById('taskInput');
+const dueDateInput = document.getElementById('dueDateInput');
+const priorityInput = document.getElementById('priorityInput');
+const addBtn = document.getElementById('addBtn');
+const taskList = document.getElementById('taskList');
+const clearAllBtn = document.getElementById('clearAllBtn');
+const progressBar = document.getElementById('progressBar');
+const progressText = document.getElementById('progressText');
+const filterBtns = document.querySelectorAll('[data-filter]');
+
+// Tasks State
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 let currentFilter = 'all';
 
-// DOM Elements
-const taskInput = document.getElementById('task-input');
-const dateInput = document.getElementById('date-input');
-const priorityInput = document.getElementById('priority-input');
-const addBtn = document.getElementById('add-btn');
-const clearAllBtn = document.getElementById('clear-all-btn');
-const taskList = document.getElementById('task-list');
-const filterBtns = document.querySelectorAll('.filter-btn');
+// Initialize App
+renderTasks();
 
-// Save tasks to localStorage
-function saveTasks() {
-  localStorage.setItem('tasks', JSON.stringify(tasks));
-}
+// Add Task Function
+function addTask(e) {
+  if (e) e.preventDefault();
 
-// Calculate Overdue / Due Today badges
-function getDeadlineBadge(dueDateStr) {
-  if (!dueDateStr) return '';
+  const title = taskInput.value.trim();
+  const dueDate = dueDateInput ? dueDateInput.value : '';
+  const priority = priorityInput ? priorityInput.value : 'low';
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const taskDate = new Date(dueDateStr);
-  taskDate.setHours(0, 0, 0, 0);
-
-  const diffDays = Math.ceil((taskDate - today) / (1000 * 60 * 60 * 24));
-
-  if (diffDays < 0) {
-    return `<span class="badge badge-overdue">Overdue</span>`;
-  } else if (diffDays === 0) {
-    return `<span class="badge badge-today">Due Today</span>`;
-  }
-  return '';
-}
-
-// Sort tasks by due date (closest deadline first)
-function sortTasksByDate() {
-  tasks.sort((a, b) => {
-    if (!a.dueDate) return 1;
-    if (!b.dueDate) return -1;
-    return new Date(a.dueDate) - new Date(b.dueDate);
-  });
-}
-
-// Update Progress Bar & Stats & Empty State
-function updateProgress() {
-  const total = tasks.length;
-  const completed = tasks.filter(t => t.completed).length;
-  const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
-
-  document.getElementById('progress-text').innerText = `${completed} of ${total} completed`;
-  document.getElementById('progress-percent').innerText = `${percentage}%`;
-  document.getElementById('progress-bar-fill').style.width = `${percentage}%`;
-
-  const emptyState = document.getElementById('empty-state');
-  if (emptyState) {
-    const filteredTasks = tasks.filter(task => currentFilter === 'all' || task.priority === currentFilter);
-    emptyState.style.display = filteredTasks.length === 0 ? 'block' : 'none';
-  }
-}
-
-// Render Tasks to DOM
-function renderTasks() {
-  sortTasksByDate();
-  taskList.innerHTML = '';
-
-  const filteredTasks = tasks.filter(task => {
-    if (currentFilter === 'all') return true;
-    return task.priority === currentFilter;
-  });
-
-  filteredTasks.forEach((task) => {
-    const originalIndex = tasks.indexOf(task);
-    const li = document.createElement('li');
-
-    const badgeHTML = task.completed ? '' : getDeadlineBadge(task.dueDate);
-
-    li.innerHTML = `
-      <div class="task-content">
-        <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask(${originalIndex})">
-        <span class="${task.completed ? 'completed' : ''}">
-          <strong>${task.text}</strong> [${task.priority}] - 📅 ${task.dueDate || 'No date'}
-        </span>
-        ${badgeHTML}
-      </div>
-      <div class="task-actions">
-        <button class="edit-btn" onclick="editTask(${originalIndex})">Edit</button>
-        <button class="delete-btn" onclick="deleteTask(${originalIndex})">Delete</button>
-      </div>
-    `;
-
-    taskList.appendChild(li);
-  });
-
-  updateProgress();
-}
-
-// Add New Task
-function addTask() {
-  const text = taskInput.value.trim();
-  const dueDate = dateInput.value;
-  const priority = priorityInput.value;
-
-  if (text === '') {
-    alert('Please enter a task name!');
-    return;
-  }
+  if (!title) return;
 
   const newTask = {
-    text: text,
+    id: Date.now(),
+    title: title,
     dueDate: dueDate,
     priority: priority,
     completed: false
   };
 
   tasks.push(newTask);
-  saveTasks();
-  renderTasks();
+  saveAndRender();
 
+  // Reset Input Fields
   taskInput.value = '';
-  dateInput.value = '';
-  priorityInput.value = 'Low';
+  if (dueDateInput) dueDateInput.value = '';
 }
 
-// Edit Existing Task
-function editTask(index) {
-  const task = tasks[index];
-  const newText = prompt("Edit task title:", task.text);
-  
-  if (newText !== null && newText.trim() !== "") {
-    task.text = newText.trim();
-    saveTasks();
-    renderTasks();
-  }
+// Toggle Complete
+function toggleTask(id) {
+  tasks = tasks.map(task => 
+    task.id === id ? { ...task, completed: !task.completed } : task
+  );
+  saveAndRender();
 }
 
-// Toggle Task Completion
-function toggleTask(index) {
-  tasks[index].completed = !tasks[index].completed;
-  saveTasks();
-  renderTasks();
-}
-
-// Delete Single Task
-function deleteTask(index) {
-  if (confirm("Are you sure you want to delete this task?")) {
-    tasks.splice(index, 1);
-    saveTasks();
-    renderTasks();
-  }
+// Delete Task
+function deleteTask(id) {
+  tasks = tasks.filter(task => task.id !== id);
+  saveAndRender();
 }
 
 // Clear All Tasks
 function clearAllTasks() {
-  if (tasks.length === 0) {
-    alert("No tasks to clear!");
-    return;
-  }
-
-  if (confirm("Are you sure you want to delete ALL tasks? This cannot be undone.")) {
+  if (confirm('Are you sure you want to delete all tasks?')) {
     tasks = [];
-    saveTasks();
-    renderTasks();
+    saveAndRender();
   }
 }
 
-// Event Listeners for Filters
+// Save to LocalStorage and Update UI
+function saveAndRender() {
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  renderTasks();
+}
+
+// Render Tasks UI
+function renderTasks() {
+  // Filter Tasks
+  const filteredTasks = tasks.filter(task => {
+    if (currentFilter === 'pending') return !task.completed;
+    if (currentFilter === 'completed') return task.completed;
+    return true;
+  });
+
+  // Render Task Items
+  if (taskList) {
+    taskList.innerHTML = '';
+
+    if (filteredTasks.length === 0) {
+      taskList.innerHTML = '<li style="text-align:center; color:#666; padding: 10px;">No tasks found.</li>';
+    } else {
+      filteredTasks.forEach(task => {
+        const li = document.createElement('li');
+        li.className = `task-item ${task.completed ? 'completed' : ''}`;
+        
+        li.innerHTML = `
+          <div class="task-info">
+            <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask(${task.id})">
+            <span class="task-title">${task.title}</span>
+            ${task.dueDate ? `<span class="task-date">${task.dueDate}</span>` : ''}
+            <span class="badge badge-${task.priority}">${task.priority}</span>
+          </div>
+          <button class="delete-btn" onclick="deleteTask(${task.id})">Delete</button>
+        `;
+        
+        taskList.appendChild(li);
+      });
+    }
+  }
+
+  // Update Progress Bar
+  if (progressBar && progressText) {
+    const completedCount = tasks.filter(t => t.completed).length;
+    const totalCount = tasks.length;
+    const percent = totalCount === 0 ? 0 : Math.round((completedCount / totalCount) * 100);
+
+    progressBar.style.width = `${percent}%`;
+    progressText.innerText = `${percent}%`;
+  }
+}
+
+// Event Listeners
+if (addBtn) addBtn.addEventListener('click', addTask);
+if (clearAllBtn) clearAllBtn.addEventListener('click', clearAllTasks);
+
+if (taskInput) {
+  taskInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      addTask(e);
+    }
+  });
+}
+
+// Filter Event Listeners
 filterBtns.forEach(btn => {
   btn.addEventListener('click', (e) => {
     filterBtns.forEach(b => b.classList.remove('active'));
@@ -176,16 +137,3 @@ filterBtns.forEach(btn => {
     renderTasks();
   });
 });
-
-// Event Listeners
-addBtn.addEventListener('click', addTask);
-clearAllBtn.addEventListener('click', clearAllTasks);
-
-taskInput.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') {
-    addTask();
-  }
-});
-
-// Initial Render on Page Load
-renderTasks();
