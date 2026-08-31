@@ -7,7 +7,6 @@ const taskInput = document.getElementById('task-input');
 const dateInput = document.getElementById('date-input');
 const priorityInput = document.getElementById('priority-input');
 const addBtn = document.getElementById('add-btn');
-const clearAllBtn = document.getElementById('clear-all-btn');
 const taskList = document.getElementById('task-list');
 const filterBtns = document.querySelectorAll('.filter-btn');
 
@@ -86,10 +85,7 @@ function renderTasks() {
         </span>
         ${badgeHTML}
       </div>
-      <div class="task-actions">
-        <button class="edit-btn" onclick="editTask(${originalIndex})">Edit</button>
-        <button class="delete-btn" onclick="deleteTask(${originalIndex})">Delete</button>
-      </div>
+      <button class="delete-btn" onclick="deleteTask(${originalIndex})">Delete</button>
     `;
 
     taskList.appendChild(li);
@@ -125,18 +121,6 @@ function addTask() {
   priorityInput.value = 'Low';
 }
 
-// Edit Existing Task
-function editTask(index) {
-  const task = tasks[index];
-  const newText = prompt("Edit task title:", task.text);
-  
-  if (newText !== null && newText.trim() !== "") {
-    task.text = newText.trim();
-    saveTasks();
-    renderTasks();
-  }
-}
-
 // Toggle Task Completion
 function toggleTask(index) {
   tasks[index].completed = !tasks[index].completed;
@@ -144,24 +128,10 @@ function toggleTask(index) {
   renderTasks();
 }
 
-// Delete Single Task
+// Delete Task with confirmation prompt
 function deleteTask(index) {
   if (confirm("Are you sure you want to delete this task?")) {
     tasks.splice(index, 1);
-    saveTasks();
-    renderTasks();
-  }
-}
-
-// Clear All Tasks
-function clearAllTasks() {
-  if (tasks.length === 0) {
-    alert("No tasks to clear!");
-    return;
-  }
-
-  if (confirm("Are you sure you want to delete ALL tasks? This cannot be undone.")) {
-    tasks = [];
     saveTasks();
     renderTasks();
   }
@@ -177,10 +147,10 @@ filterBtns.forEach(btn => {
   });
 });
 
-// Event Listeners
+// Event Listener for Add Button
 addBtn.addEventListener('click', addTask);
-clearAllBtn.addEventListener('click', clearAllTasks);
 
+// Allow pressing Enter in input box to add task
 taskInput.addEventListener('keypress', (e) => {
   if (e.key === 'Enter') {
     addTask();

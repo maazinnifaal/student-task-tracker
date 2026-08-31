@@ -2,8 +2,6 @@
 
 A responsive, task management web application built to help students track deadlines, organize assignments by priority, and monitor overall progress in real time.
 
-🚀 **Live Demo:** [https://maazinnifaal.github.io/student-task-tracker/](https://maazinnifaal.github.io/student-task-tracker/)
-
 ---
 
 ## 📷 Project Evolution & Preview
@@ -18,13 +16,12 @@ A responsive, task management web application built to help students track deadl
 
 ## ✨ Features & Updates
 
-* **Task Management:** Create, edit, mark complete, and delete tasks dynamically.
+* **Task Management:** Create, mark complete, and delete tasks dynamically.
 * **Persistent Storage:** Saves tasks in browser `localStorage` so data isn't lost on page refresh.
 * **Smart Deadline Sorting:** Automatically sorts tasks to display upcoming deadlines first.
 * **Automated Alert Badges:** Highlights tasks as **OVERDUE** or **DUE TODAY** based on target dates.
 * **Priority Filtering:** Filter tasks easily by priority levels (**High**, **Medium**, **Low**).
 * **Live Progress Bar:** Tracks completed task percentages dynamically in real-time.
-* **Bulk Actions:** Clear all tasks with built-in confirmation safeguards.
 
 ---
 
