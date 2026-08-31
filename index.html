@@ -10,11 +10,16 @@
   <div class="container">
     <h1>Student Task Tracker</h1>
 
-    <!-- Progress Bar -->
-    <div class="progress-container">
-      <div id="progressBar" class="progress-bar" style="width: 0%;"></div>
+    <!-- Progress Tracker -->
+    <div class="stats-container">
+      <div class="progress-info">
+        <span>Progress</span>
+        <span id="progressText">0%</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div id="progressBar" class="progress-bar-fill"></div>
+      </div>
     </div>
-    <p id="progressText">0%</p>
 
     <!-- Input Section -->
     <div class="form-group">
@@ -28,12 +33,14 @@
       <button id="addBtn">Add Task</button>
     </div>
 
-    <!-- Filter Buttons -->
+    <!-- Filter & Action Bar -->
     <div class="filter-group">
-      <button data-filter="all" class="active">All</button>
-      <button data-filter="pending">Pending</button>
-      <button data-filter="completed">Completed</button>
-      <button id="clearAllBtn">Clear All</button>
+      <div class="filters">
+        <button data-filter="all" class="filter-btn active">All</button>
+        <button data-filter="pending" class="filter-btn">Pending</button>
+        <button data-filter="completed" class="filter-btn">Completed</button>
+      </div>
+      <button id="clearAllBtn" class="clear-btn">Clear All</button>
     </div>
 
     <!-- Task List -->
