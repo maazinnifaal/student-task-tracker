@@ -90,12 +90,26 @@ function renderTasks() {
         const li = document.createElement('li');
         li.className = `task-item ${task.completed ? 'completed' : ''}`;
         
+        let badgeClass = `badge-${task.priority}`;
+        let badgeText = task.priority;
+        const todayStr = new Date().toISOString().split('T')[0];
+
+        if (task.dueDate && !task.completed) {
+          if (task.dueDate < todayStr) {
+            badgeClass = 'badge-overdue';
+            badgeText = 'Overdue';
+          } else if (task.dueDate === todayStr) {
+            badgeClass = 'badge-today';
+            badgeText = 'Today';
+          }
+        }
+
         li.innerHTML = `
           <div class="task-info">
             <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask(${task.id})">
             <span class="task-title">${task.title}</span>
             ${task.dueDate ? `<span class="task-date">${task.dueDate}</span>` : ''}
-            <span class="badge badge-${task.priority}">${task.priority}</span>
+            <span class="badge ${badgeClass}">${badgeText}</span>
           </div>
           <button class="delete-btn" onclick="deleteTask(${task.id})">Delete</button>
         `;
@@ -137,4 +151,3 @@ filterBtns.forEach(btn => {
     renderTasks();
   });
 });
-// test comment
